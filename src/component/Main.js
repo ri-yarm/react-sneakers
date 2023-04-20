@@ -1,7 +1,21 @@
 const Main = () => {
   return (
     <main className="content">
-      <h2 className="content__title">Все кроссовки</h2>
+      <div className="content__head">
+        <h2 className="content__title">Все кроссовки</h2>
+        <div className="search">
+          <img
+            className="search__img"
+            src="/img/content__search.svg"
+            alt=" Иконка поиска."
+          />
+          <input
+            className="search__input"
+            type="text"
+            placeholder="Поиск кроссовок..."
+          />
+        </div>
+      </div>
 
       <div className="sneakers">
         <article className="card">
@@ -10,7 +24,9 @@ const Main = () => {
             alt=""
             className="card__image"
           />
-          <button className="card__like"></button>
+          <button className="card__like">
+            <img src="/img/card__unliked.svg" alt="" />
+          </button>
           <h3 className="card__title">
             Мужские Кроссовки Nike Blazer Mid Suede
           </h3>
@@ -20,7 +36,7 @@ const Main = () => {
               <p className="card__price">12 999 руб</p>
             </span>
             <button className="card__addBasket">
-              <img width={10} src="/img/card__plus.svg" alt="" />
+              <img src="/img/card__plus.svg" alt="" />
             </button>
           </div>
         </article>
@@ -30,7 +46,9 @@ const Main = () => {
             alt=""
             className="card__image"
           />
-          <button className="card__like"></button>
+          <button className="card__like">
+            <img src="/img/card__unliked.svg" alt="" />
+          </button>
           <h3 className="card__title">
             Мужские Кроссовки Nike Blazer Mid Suede
           </h3>
@@ -40,7 +58,7 @@ const Main = () => {
               <p className="card__price">12 999 руб</p>
             </span>
             <button className="card__addBasket">
-              <img width={10} src="/img/card__plus.svg" alt="" />
+              <img src="/img/card__plus.svg" alt="" />
             </button>
           </div>
         </article>
@@ -50,7 +68,9 @@ const Main = () => {
             alt=""
             className="card__image"
           />
-          <button className="card__like"></button>
+          <button className="card__like">
+            <img src="/img/card__unliked.svg" alt="" />
+          </button>
           <h3 className="card__title">
             Мужские Кроссовки Nike Blazer Mid Suede
           </h3>
@@ -60,7 +80,7 @@ const Main = () => {
               <p className="card__price">12 999 руб</p>
             </span>
             <button className="card__addBasket">
-              <img width={10} src="/img/card__plus.svg" alt="" />
+              <img src="/img/card__plus.svg" alt="" />
             </button>
           </div>
         </article>
@@ -70,7 +90,9 @@ const Main = () => {
             alt=""
             className="card__image"
           />
-          <button className="card__like"></button>
+          <button className="card__like">
+            <img src="/img/card__unliked.svg" alt="" />
+          </button>
           <h3 className="card__title">
             Мужские Кроссовки Nike Blazer Mid Suede
           </h3>
@@ -80,7 +102,7 @@ const Main = () => {
               <p className="card__price">12 999 руб</p>
             </span>
             <button className="card__addBasket">
-              <img width={10} src="/img/card__plus.svg" alt="" />
+              <img src="/img/card__plus.svg" alt="" />
             </button>
           </div>
         </article>
