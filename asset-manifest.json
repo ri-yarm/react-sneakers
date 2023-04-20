@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/react-mesto-auth/static/css/main.ab21beb3.css",
+    "main.js": "/react-mesto-auth/static/js/main.b4a11f64.js",
+    "index.html": "/react-mesto-auth/index.html",
+    "main.ab21beb3.css.map": "/react-mesto-auth/static/css/main.ab21beb3.css.map",
+    "main.b4a11f64.js.map": "/react-mesto-auth/static/js/main.b4a11f64.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.ab21beb3.css",
+    "static/js/main.b4a11f64.js"
+  ]
+}
