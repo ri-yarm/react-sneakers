@@ -1,0 +1,55 @@
+.header {
+  border-bottom: 1px solid #eaeaea;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 45px;
+
+  &__logoContainer {
+    display: flex;
+    align-items: center;
+  }
+
+  &__logo {
+    margin: 0 16px 0 0;
+  }
+
+  &__title {
+    margin: 0;
+    padding: 0;
+    text-transform: uppercase;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 24px;
+  }
+
+  &__subtitle {
+    margin: 0;
+    padding: 0;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+
+    color: #9d9d9d;
+  }
+
+  .profile {
+    display: flex;
+
+    &__basket {
+      margin: 0 30px 0 0;
+      display: flex;
+      align-items: center;
+
+      img {
+        margin: 0 10px 0 0;
+      }
+    }
+
+    &__heart {
+      margin: 0 30px 0 0;
+    }
+  }
+}

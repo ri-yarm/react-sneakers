@@ -1,0 +1,98 @@
+.card {
+  margin: 0;
+  padding: 20px 24px 30px;
+  max-width: 210px;
+  height: 260px;
+  background: #ffffff;
+  border: 1px solid #f3f3f3;
+  border-radius: 40px;
+  position: relative;
+  transition: all 0.5s;
+  // cursor: pointer;
+
+  &:hover {
+    // background: #ffffff;
+    // border: 1px solid #f8f8f8;
+    box-shadow: 0px 14px 35px rgba(0, 0, 0, 0.08);
+    transform: translateY(-6px);
+  }
+
+  &__image {
+    width: 132px;
+    height: 112px;
+    display: block;
+    margin: 0 0 14px;
+    padding: 0;
+  }
+
+  &__like {
+    position: absolute;
+    top: 10px;
+    left: 15px;
+
+    // width: 32px;
+    // height: 32px;
+    background: none;
+    border: none;
+    // border-radius: 7px;
+    cursor: pointer;
+  }
+
+  &__title {
+    margin: 0;
+    padding: 0;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    max-width: 150px;
+  }
+
+  &__info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__priceContainer {
+    flex-direction: column;
+  }
+
+  &__title {
+    margin: 0 0 14px;
+    padding: 0;
+
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+  }
+
+  &__subtitle {
+    margin: 0 0 2px;
+    padding: 0;
+
+    font-weight: 500;
+    font-size: 11px;
+    line-height: 13px;
+    text-transform: uppercase;
+  }
+
+  &__price {
+    margin: 0;
+    padding: 0;
+
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 17px;
+    color: #000000;
+  }
+
+  &__addBasket {
+    width: 32px;
+    height: 32px;
+    background: #ffffff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+}

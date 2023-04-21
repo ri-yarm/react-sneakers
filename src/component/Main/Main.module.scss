@@ -1,0 +1,55 @@
+.content {
+  padding: 40px 20px;
+  margin: 0 auto;
+  width: calc(100% - 120px);
+
+  &__title {
+    margin: 0;
+    padding: 0;
+    font-weight: 700;
+    font-size: 32px;
+    line-height: 39px;
+    color: #000000;
+  }
+
+  &__head {
+    margin: 0 0 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+.search {
+  // display: flex;
+  // height: 45px;
+  padding: 0 15px;
+  border: 1px solid #f3f3f3;
+  border-radius: 10px;
+
+  &__img {
+    // display: block;
+  }
+
+  &__input {
+    width: 250px;
+    border: none;
+    padding: 13px;
+    margin: 0;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    color: #c4c4c4;
+
+    &:focus {
+      color: #000;
+    }
+  }
+}
+
+.sneakers {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 auto;
+  gap: 40px;
+}
