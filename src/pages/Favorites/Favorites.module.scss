@@ -1,0 +1,35 @@
+.contentFavorite {
+  padding: 40px 20px;
+  margin: 0 auto;
+  width: calc(100% - 120px);
+  min-height: 600px;
+
+  &__title {
+    margin: 0;
+    padding: 0;
+    font-weight: 700;
+    font-size: 2em;
+    line-height: 39px;
+    color: #000000;
+    max-width: 590px;
+    overflow: hidden;
+  }
+
+  &__head {
+    margin: 0 0 30px;
+    display: flex;
+    align-items: center;
+  }
+
+  &__backButton {
+    margin: 0 22px 0 0;
+    padding: 0;
+  }
+}
+
+.sneakers {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 auto;
+  gap: 40px;
+}

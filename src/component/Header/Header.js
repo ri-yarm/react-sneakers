@@ -1,9 +1,11 @@
+import { Link } from "react-router-dom";
+
 import styles from "./Header.module.scss";
 
-export const Header = () => {
+export const Header = ({ handleBasketOpened }) => {
   return (
     <header className={styles.header}>
-      <a className={styles.header__logoContainer}>
+      <Link to="/" className={styles.header__logoContainer}>
         <img
           className={styles.header__logo}
           src={process.env.PUBLIC_URL + "/img/header__logo.svg"}
@@ -13,9 +15,9 @@ export const Header = () => {
           <h1 className={styles.header__title}>REACT SNEAKERS</h1>
           <p className={styles.header__subtitle}>Магазин лучших кроссовок</p>
         </div>
-      </a>
+      </Link>
       <ul className={styles.profile}>
-        <li className={styles.profile__basket}>
+        <li className={styles.profile__basket} onClick={handleBasketOpened}>
           <img
             className={styles.profile__image}
             src={process.env.PUBLIC_URL + "/img/header__basket.svg"}
@@ -24,11 +26,13 @@ export const Header = () => {
           <span className={styles.profile__title}> 1205 руб.</span>
         </li>
         <li className={styles.profile__heart}>
-          <img
-            className={styles.profile__image}
-            src={process.env.PUBLIC_URL + "/img/header__heart.svg"}
-            alt=""
-          />
+          <Link to="/favorites">
+            <img
+              className={styles.profile__image}
+              src={process.env.PUBLIC_URL + "/img/header__heart.svg"}
+              alt=""
+            />
+          </Link>
         </li>
         <li className={styles.profile__user}>
           <img
