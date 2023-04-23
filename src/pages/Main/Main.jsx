@@ -1,10 +1,17 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 
 import Card from "../../component/Card";
 
 import styles from "./Main.module.scss";
 
-export const Main = ({ sneakers, addToBasket, handleRemoveItemBasket, handleAddToFavorite }) => {
+
+export const Main = ({
+  sneakers,
+  addToBasket,
+  handleAddToFavorite,
+  basketSneakers,
+  isLoading,
+}) => {
   const [searchInputValue, setSearchInputValue] = useState("");
 
   /** Обработчик инпута */
@@ -12,11 +19,31 @@ export const Main = ({ sneakers, addToBasket, handleRemoveItemBasket, handleAddT
     setSearchInputValue(event.target.value);
   };
 
-  const cardsElement = sneakers
-    .filter((item) => item.title.toLocaleLowerCase().includes(searchInputValue.toLocaleLowerCase())) // перед тем как рендерить отфильтруем массив исходня из поиска(если инпут пустой, вернёся исходный массив)
-    .map((card, index) => (
-      <Card addToBasket={addToBasket} card={card} handleRemoveItemBasket={handleRemoveItemBasket} handleAddToFavorite={handleAddToFavorite} key={index} />
+  // если в корзине есть таккой товар то, ставит галочку
+  const isCardAddedBasket = (card) =>
+    basketSneakers.some((obj) => Number(obj.id) === Number(card.id));
+
+  const cardsElement = () => {
+    const filtredItems = sneakers.filter((item) =>
+      item.title
+        .toLocaleLowerCase()
+        .includes(searchInputValue.toLocaleLowerCase())
+    ); // перед тем как рендерить отфильтруем массив исходня из поиска(если инпут пустой, вернёся исходный массив)
+
+    return (isLoading ? [...Array(12)] : filtredItems).map((card, index) => (
+      <Card
+        addToBasket={addToBasket}
+        // isAdded={isCardAddedBasket(card)}
+        // isAdded={hasAddedItems(card && card.id)}
+        // isFavorited
+        loading={isLoading}
+        card={card}
+        handleAddToFavorite={handleAddToFavorite}
+        // isCardAddedToBasket={() => isCardAddedToBasket(card)}
+        key={index}
+      />
     ));
+  };
 
   return (
     <main className={styles.content}>
@@ -53,7 +80,7 @@ export const Main = ({ sneakers, addToBasket, handleRemoveItemBasket, handleAddT
         </div>
       </div>
 
-      <div className={styles.sneakers}>{cardsElement}</div>
+      <div className={styles.sneakers}>{cardsElement()}</div>
     </main>
   );
 };

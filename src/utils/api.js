@@ -38,3 +38,7 @@ export const getFromFavorite = () => {
 export const deleteFromFavorite = (id) => {
   return axios.delete(`https://6443fd7590738aa7c07c6764.mockapi.io/favorites/${id}`)
 }
+
+export const buy = (obj) => {
+  return axios.post(`https://6443fd7590738aa7c07c6764.mockapi.io/orders`, obj)
+}

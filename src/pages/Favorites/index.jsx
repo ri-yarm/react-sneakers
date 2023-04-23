@@ -1,14 +1,17 @@
-import { useEffect } from "react";
+import { useEffect, useContext } from "react";
 
 import Card from "../../component/Card";
 import * as api from "../../utils/api";
 import styles from "./Favorites.module.scss";
 
-export const Favorites = ({ favorites, setFavorites, handleAddToFavorite }) => {
+import { SneakersContext } from "../../contexts/SneakersContext";
+
+export const Favorites = ({handleAddToFavorite }) => {
+  const { favorites } = useContext(SneakersContext);
   const favoritesElement = favorites.map((item, index) => (
     <Card
       card={item}
-      favorited={true}
+      isFavorited
       // addToBasket={addToBasket}
       // handleRemoveItemBasket={handleRemoveItemBasket}
       handleAddToFavorite={handleAddToFavorite}

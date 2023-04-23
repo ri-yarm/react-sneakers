@@ -1,8 +1,14 @@
+import { useContext } from "react";
+
 import { Link } from "react-router-dom";
 
 import styles from "./Header.module.scss";
 
-export const Header = ({ handleBasketOpened }) => {
+import { SneakersContext } from "../../contexts/SneakersContext";
+
+export const Header = () => {
+  const { handleBasketOpened } = useContext(SneakersContext);
+
   return (
     <header className={styles.header}>
       <Link to="/" className={styles.header__logoContainer}>

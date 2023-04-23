@@ -1,18 +1,33 @@
-import { useEffect } from "react";
+import { useEffect, useContext, useState } from "react";
+
+import Info from "../Info";
 
 import styles from "./Aside.module.scss";
 
-export const AsideCart = ({
-  isOpen,
-  basketSneakers,
-  handleBasketOpened,
-  handleRemoveItemBasket,
-}) => {
+import { SneakersContext } from "../../contexts/SneakersContext";
+
+export const AsideCart = ({ isOpen, handleRemoveItemBasket, handleBuy }) => {
+  const [isBuying, setIsBuying] = useState(false);
+  // const [buyingId, setBuyingId] = useState(null);
+  const [isLoading, setIsLoading] = useState(false); //! баг кнопка не дизейблится
+  const { setBasketSneakers, handleBasketOpened, basketSneakers } =
+    useContext(SneakersContext);
+
   const clickOverlay = (evt) => {
     if (evt.target === evt.currentTarget) handleBasketOpened();
   };
 
-  console.log(basketSneakers);
+  const onClickOrder = () => {
+    try {
+      handleBuy({
+        items: basketSneakers,
+      });
+      setIsBuying(true);
+    } catch (error) {
+      alert("не удалось купить(");
+      console.log(error);
+    }
+  };
 
   const SneakersElement = basketSneakers?.map((item, index) => (
     <div className={styles.basket__item} key={index}>
@@ -77,7 +92,11 @@ export const AsideCart = ({
                 <span className={styles.basket__dashed}></span>
                 <p>1074 руб. </p>
               </div>
-              <button className={`button ${styles.basket__submitButton}`}>
+              <button
+                disabled={isLoading}
+                className={`button ${styles.basket__submitButton}`}
+                onClick={onClickOrder}
+              >
                 Оформить заказ
                 <span className={styles.basket__submitButton_arrow}>
                   {" "}
@@ -87,22 +106,21 @@ export const AsideCart = ({
             </div>
           </>
         ) : (
-          <div className={styles.emptyBasket}>
-            <img
-              src={process.env.PUBLIC_URL + "/img/basket__empty.svg"}
-              alt=" Пустая корзина."
-            />
-            <h4 className={styles.emptyBasket__title}>Корзина пустая</h4>
-            <p className={styles.emptyBasket__subtitle}>
-              Добавьте хотя бы одну пару кроссовок, чтобы сделать заказ.
-            </p>
-            <button className={`button ${styles.emptyBasket__returnButton}`} onClick={handleBasketOpened}>
-              <span className={styles.emptyBasket__returnButton_arrow}>
-                &#129044;
-              </span>
-              Вернуться назад
-            </button>
-          </div>
+          <Info
+            title={isBuying ? "Заказ оформлен!" : "Корзина пустая"}
+            subtitle={
+              isBuying
+                ? `Ваш заказ #${Math.round(
+                    (Math.random() * 150) / 1.4
+                  )} скоро будет передан курьерской доставке`
+                : "Добавьте хотя бы одну пару кроссовок, чтобы сделать заказ."
+            }
+            img={
+              isBuying
+                ? "/img/basket__completeOrder.svg"
+                : "/img/basket__empty.svg"
+            }
+          />
         )}
       </aside>
     </div>
