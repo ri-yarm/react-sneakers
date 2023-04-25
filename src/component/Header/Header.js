@@ -3,11 +3,10 @@ import { useContext } from "react";
 import { Link } from "react-router-dom";
 
 import styles from "./Header.module.scss";
+import { usePrice } from "../hooks/usePrice";
 
-import { SneakersContext } from "../../contexts/SneakersContext";
-
-export const Header = () => {
-  const { handleBasketOpened } = useContext(SneakersContext);
+export const Header = ({ handleBasketOpened }) => {
+  const { totalPrice } = usePrice();
 
   return (
     <header className={styles.header}>
@@ -29,7 +28,9 @@ export const Header = () => {
             src={process.env.PUBLIC_URL + "/img/header__basket.svg"}
             alt=""
           />
-          <span className={styles.profile__title}> 1205 руб.</span>
+          {totalPrice ? (
+            <span className={styles.profile__title}> {totalPrice} руб.</span>
+          ) : null}
         </li>
         <li className={styles.profile__heart}>
           <Link to="/favorites">
@@ -41,11 +42,13 @@ export const Header = () => {
           </Link>
         </li>
         <li className={styles.profile__user}>
-          <img
-            className={styles.profile__image}
-            src={process.env.PUBLIC_URL + "/img/header__profile.svg"}
-            alt=""
-          />
+          <Link to="/orders">
+            <img
+              className={styles.profile__image}
+              src={process.env.PUBLIC_URL + "/img/header__profile.svg"}
+              alt=""
+            />
+          </Link>
         </li>
       </ul>
     </header>

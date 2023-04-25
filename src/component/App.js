@@ -6,16 +6,27 @@ import { Main } from "../pages/Main/Main";
 import { AsideCart } from "./AsideCart";
 
 import { Favorites } from "../pages/Favorites";
+import { Orders } from "../pages/Orders";
 
 import * as api from "../utils/api";
 
 import { SneakersContext } from "../contexts/SneakersContext";
+
+
+/* 
+  ! Баги не отображаются избранные на главной
+  ! Не те кроссовки ставятся галочкой при перезагрузке
+  ! не блокируется кнопка при покупке
+  TODO Сделать слайдер!
+
+*/
 
 function App() {
   const [sneakers, setSneakers] = useState([]); //кроссовки
   const [basketSneakers, setBasketSneakers] = useState([]); //кроссовки в корзине
   const [isBasketOpened, setIsBasketOpened] = useState(false); //стейт открытой или закрытой корзины
   const [favorites, setFavorites] = useState([]);
+  const [orders, setOrders] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   /** Функция открытия и закрытия корзины */
@@ -87,7 +98,6 @@ function App() {
       await delay(300);
     }
 
-
     setBasketSneakers([]);
 
     await api.buy(obj);
@@ -98,15 +108,21 @@ function App() {
     (async () => {
       setIsLoading(true);
 
-      const sneakersResponse = await api.getItems();
-      const basketResponse = await api.getToBasket();
-      const favoriteResponse = await api.getFromFavorite();
+      try {
+        const sneakersResponse = await api.getItems();
+        const basketResponse = await api.getToBasket();
+        const favoriteResponse = await api.getFromFavorite();
+        const ordersResponse = await api.myOrders();
+
+        setBasketSneakers(basketResponse.data);
+        setFavorites(favoriteResponse.data);
+        setSneakers(sneakersResponse.data);
+        setOrders(ordersResponse.data);
+      } catch (error) {
+        alert("Приложение упало");
+      }
 
       setIsLoading(false);
-
-      setBasketSneakers(basketResponse.data);
-      setFavorites(favoriteResponse.data);
-      setSneakers(sneakersResponse.data);
     })();
     // api.getItems().then((res) => setSneakers(res.data));
   }, []);
@@ -116,8 +132,8 @@ function App() {
     (async () => {
       const basketResponse = await api.getToBasket();
       setBasketSneakers(basketResponse.data);
-    })()
-  }, [isBasketOpened])
+    })();
+  }, [isBasketOpened]);
 
   /** Получаем содержимое корзины только когда мы её открываем  */
   /* useEffect(() => {
@@ -138,11 +154,13 @@ function App() {
         favorites,
         hasAddedItems,
         handleBasketOpened,
+        handleAddToFavorite,
+        isLoading,
       }}
     >
       <div className="page clear">
         <div className="page__container">
-          <Header />
+          <Header handleBasketOpened={handleBasketOpened} />
           {isBasketOpened && (
             <AsideCart
               isOpen={isBasketOpened}
@@ -151,23 +169,23 @@ function App() {
             />
           )}
           <Routes>
+
             <Route
               path="/favorites"
-              element={<Favorites handleAddToFavorite={handleAddToFavorite} />}
+              element={<Favorites addToBasket={handleAddToBasket} />}
             />
+
             <Route
               path="/"
               element={
                 <Main
-                  sneakers={sneakers}
-                  basketSneakers={basketSneakers}
                   addToBasket={handleAddToBasket}
                   handleRemoveItemBasket={handleRemoveItemBasket}
-                  handleAddToFavorite={handleAddToFavorite}
-                  isLoading={isLoading}
                 />
               }
             />
+
+            <Route path="/orders" element={<Orders orders={orders} />} />
           </Routes>
         </div>
       </div>

@@ -2,26 +2,24 @@ import { useContext, useState } from "react";
 
 import Card from "../../component/Card";
 
+import { SneakersContext } from "../../contexts/SneakersContext";
+
 import styles from "./Main.module.scss";
 
-
-export const Main = ({
-  sneakers,
-  addToBasket,
-  handleAddToFavorite,
-  basketSneakers,
-  isLoading,
-}) => {
+export const Main = ({ addToBasket }) => {
   const [searchInputValue, setSearchInputValue] = useState("");
 
-  /** Обработчик инпута */
+  const { sneakers, handleAddToFavorite, isLoading, hasAddedItems } =
+    useContext(SneakersContext);
+
+  /** Обработчик инпута поиска*/
   const onChangeInputValue = (event) => {
     setSearchInputValue(event.target.value);
   };
 
   // если в корзине есть таккой товар то, ставит галочку
-  const isCardAddedBasket = (card) =>
-    basketSneakers.some((obj) => Number(obj.id) === Number(card.id));
+  /*   const isCardAddedBasket = (card) =>
+    basketSneakers.some((obj) => Number(obj.id) === Number(card.id)); */
 
   const cardsElement = () => {
     const filtredItems = sneakers.filter((item) =>
@@ -34,7 +32,7 @@ export const Main = ({
       <Card
         addToBasket={addToBasket}
         // isAdded={isCardAddedBasket(card)}
-        // isAdded={hasAddedItems(card && card.id)}
+        // isAdded={hasAddedItems(card && card.id)} !! БАГ НЕ ОТОбражаются избарнные на главной странице
         // isFavorited
         loading={isLoading}
         card={card}

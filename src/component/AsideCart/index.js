@@ -5,20 +5,22 @@ import Info from "../Info";
 import styles from "./Aside.module.scss";
 
 import { SneakersContext } from "../../contexts/SneakersContext";
+import { usePrice } from "../hooks/usePrice";
 
 export const AsideCart = ({ isOpen, handleRemoveItemBasket, handleBuy }) => {
+  const { totalPrice, tax } = usePrice();
   const [isBuying, setIsBuying] = useState(false);
   // const [buyingId, setBuyingId] = useState(null);
-  const [isLoading, setIsLoading] = useState(false); //! баг кнопка не дизейблится
-  const { setBasketSneakers, handleBasketOpened, basketSneakers } =
-    useContext(SneakersContext);
+  const [isLoading, setIsLoading] = useState(true); //! баг кнопка не дизейблится
+  const { handleBasketOpened, basketSneakers } = useContext(SneakersContext);
 
   const clickOverlay = (evt) => {
     if (evt.target === evt.currentTarget) handleBasketOpened();
   };
 
-  const onClickOrder = () => {
+  const onClickOrder = async () => {
     try {
+      setIsLoading(true);
       handleBuy({
         items: basketSneakers,
       });
@@ -27,6 +29,7 @@ export const AsideCart = ({ isOpen, handleRemoveItemBasket, handleBuy }) => {
       alert("не удалось купить(");
       console.log(error);
     }
+    setIsLoading(false);
   };
 
   const SneakersElement = basketSneakers?.map((item, index) => (
@@ -38,7 +41,7 @@ export const AsideCart = ({ isOpen, handleRemoveItemBasket, handleBuy }) => {
       />
       <div className="">
         <h3 className={styles.basket__titleItem}>{item.title}</h3>
-        <p className={styles.itemPrice}>{item.price}</p>
+        <p className={styles.itemPrice}>{item.price} руб.</p>
       </div>
       <button
         className={styles.basket__remove}
@@ -82,15 +85,15 @@ export const AsideCart = ({ isOpen, handleRemoveItemBasket, handleBuy }) => {
             </div>
 
             <div className={styles.basket__price}>
+              <div className={styles.basket__tax}>
+                <p>Коммиссия 10%: </p>
+                <span className={styles.basket__dashed}></span>
+                <p>{tax} руб. </p>
+              </div>
               <div className={styles.basket__total}>
                 <p>Итого: </p>
                 <span className={styles.basket__dashed}></span>
-                <p>21 498 руб. </p>
-              </div>
-              <div className={styles.basket__tax}>
-                <p>Налог 5%: </p>
-                <span className={styles.basket__dashed}></span>
-                <p>1074 руб. </p>
+                <p>{totalPrice + tax} руб. </p>
               </div>
               <button
                 disabled={isLoading}
