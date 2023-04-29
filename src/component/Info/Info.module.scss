@@ -36,7 +36,7 @@
       background: #9dd558;
       border-radius: 18px;
       opacity: 0.7;
-      transition: all 0.5s ease-in-out;
+      transition: opacity 0.5s ease-in-out;
       position: relative;
 
       font-style: normal;
@@ -60,7 +60,7 @@
         left: 32px;
         top: 16px;
         font-size: 24px;
-        transition: all 0.5s ease-in-out;
+        transition: transform 0.5s ease-in-out;
       }
   }
 }

@@ -11,7 +11,7 @@ export const AsideCart = ({ isOpen, handleRemoveItemBasket, handleBuy }) => {
   const { totalPrice, tax } = usePrice();
   const [isBuying, setIsBuying] = useState(false);
   // const [buyingId, setBuyingId] = useState(null);
-  const [isLoading, setIsLoading] = useState(true); //! баг кнопка не дизейблится
+  const [isLoading, setIsLoading] = useState(false); //! баг кнопка не дизейблится
   const { handleBasketOpened, basketSneakers } = useContext(SneakersContext);
 
   const clickOverlay = (evt) => {
@@ -56,15 +56,15 @@ export const AsideCart = ({ isOpen, handleRemoveItemBasket, handleBuy }) => {
   ));
 
   useEffect(() => {
-    document.body.style.overflow = "hidden";
+    document.body.style.overflow = "auto";
     return () => {
-      document.body.style.overflow = "auto";
+      document.body.style.overflow = "hidden";
     };
   }, [isOpen]);
 
   return (
-    <div className={styles.overlay} onClick={clickOverlay}>
-      <aside className={styles.basket}>
+    <div className={`${styles.overlay} ${isOpen ? styles.overlay_visible : ''}`} onClick={clickOverlay}>
+      <aside className={`${styles.basket} ${isOpen ? styles.basket_visible : ''}`}>
         <div className={styles.basket__wrap}>
           <h3 className={styles.basket__title}>Корзина</h3>
           <button

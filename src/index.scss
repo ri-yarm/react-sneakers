@@ -7,6 +7,24 @@ body {
   -moz-osx-font-smoothing: grayscale;
 
   background: #e7f6ff;
+
+  
+}
+
+html, body {
+  scrollbar-width: thin;
+}
+
+::-webkit-scrollbar {
+  width: 6px; /* ширина для вертикального скролла */
+  height: 4px; /* высота для горизонтального скролла */
+  background-color: #e2e2e2;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #347884;
+  border-radius: 9em;
+  box-shadow: inset 1px 1px 5px #f3faf7;
 }
 
 button,
@@ -52,11 +70,3 @@ input {
   background: none;
   border: none;
 }
-
-
-
-
-
-
-
-

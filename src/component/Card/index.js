@@ -13,21 +13,23 @@ const Card = ({
   isFavorited = false,
   loading,
 }) => {
-  const { hasAddedItems } = useContext(SneakersContext);
+  const { hasAddedItems, hasFavoritesItems } = useContext(SneakersContext);
+  
 
   const [toFavorite, setToFavorite] = useState(isFavorited);
 
   /** Добавляем в корзину и меняем картинку */
   const onButtonToBasket = () => {
-    addToBasket(card);
+    addToBasket({...card, itemId: card.id});
   };
 
   /** Добавляем в избранное */
   const onClickFavorite = () => {
     setToFavorite(!toFavorite);
     console.log(card);
-    handleAddToFavorite(card);
+    handleAddToFavorite({...card, itemId: card.id});
   };
+
 
   return (
     <article className={styles.card}>
@@ -44,7 +46,7 @@ const Card = ({
             <button className={styles.card__like} onClick={onClickFavorite}>
               <img
                 src={
-                  toFavorite
+                  hasFavoritesItems(card.id)
                     ? process.env.PUBLIC_URL + "/img/card__liked.svg"
                     : process.env.PUBLIC_URL + "/img/card__unliked.svg"
                 }

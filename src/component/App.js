@@ -12,10 +12,8 @@ import * as api from "../utils/api";
 
 import { SneakersContext } from "../contexts/SneakersContext";
 
-
 /* 
-  ! Баги не отображаются избранные на главной
-  ! Не те кроссовки ставятся галочкой при перезагрузке
+  ! Есть маленькая неудобность с избранными
   ! не блокируется кнопка при покупке
   TODO Сделать слайдер!
 
@@ -26,7 +24,6 @@ function App() {
   const [basketSneakers, setBasketSneakers] = useState([]); //кроссовки в корзине
   const [isBasketOpened, setIsBasketOpened] = useState(false); //стейт открытой или закрытой корзины
   const [favorites, setFavorites] = useState([]);
-  const [orders, setOrders] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   /** Функция открытия и закрытия корзины */
@@ -35,17 +32,23 @@ function App() {
   };
 
   /** Добавляем предмет в корзину */
-  const handleAddToBasket = (obj) => {
+  const handleAddToBasket = async (obj) => {
     try {
-      if (
-        basketSneakers.find((baskObj) => Number(baskObj.id) === Number(obj.id))
-      ) {
-        //если id объекта совпадает с id объекта который уже в корзине, то удаляем его
-        handleRemoveItemBasket(Number(obj.id));
+      const findItem = basketSneakers.find(
+        (baskObj) => Number(baskObj.itemId) === Number(obj.id)
+      );
+      //если id объекта совпадает с id объекта который уже в корзине, то удаляем его
+      if (findItem) {
+        setBasketSneakers((prev) =>
+          prev.filter((item) => Number(item.itemId) !== Number(obj.id))
+        );
+        api.deleteFromBasket(Number(findItem.id));
+
+        // handleRemoveItemBasket(Number(obj.itemId));
       } else {
         // если всё норм добавляем в корзину
-        api.addToBasket(obj);
-        setBasketSneakers((prev) => [...prev, obj]);
+        const {data} = await api.addToBasket(obj);
+        setBasketSneakers((prev) => [...prev, data]);
       }
     } catch (error) {
       alert("ошибка с корзиной");
@@ -55,14 +58,21 @@ function App() {
 
   /** Функция проверяет если есть предметы в корзине, то поставь галочку */
   const hasAddedItems = (id) => {
-    return basketSneakers.some((obj) => Number(obj.id) === Number(id));
+    console.log(basketSneakers);
+    return basketSneakers.some((obj) => Number(obj.itemId) === Number(id));
+  };
+
+  /** Функция проверяет если есть предметы в корзине, то поставь галочку */
+  const hasFavoritesItems = (id) => {
+    return favorites.some((obj) => Number(obj.itemId) === Number(id));
   };
 
   /** Добавляем предмет в избранное */
   const handleAddToFavorite = async (obj) => {
     try {
-      if (favorites.find((favObj) => Number(favObj.id) === Number(obj.id))) {
-        //если id объекта совпадает с id объекта который уже в избранном, то удаляем его
+      const findItem = favorites.find((favObj) => Number(favObj.id) === Number(obj.id))
+      //если id объекта совпадает с id объекта который уже в избранном, то удаляем его
+      if (findItem) {
         api.deleteFromFavorite(Number(obj.id));
         // setFavorites((prev) => prev.filter((item) => item.id !== data.id)); //! убрал, что бы не сразу удалялся из фронта
       } else {
@@ -71,17 +81,21 @@ function App() {
       }
     } catch (error) {
       alert("ошибка с фаворитами");
-      console.log(error);
+      console.error(error);
     }
   };
 
   /** Удаляем из корзины предмет(из базы и из фронта)  */
   const handleRemoveItemBasket = (id) => {
-    console.log(id);
-    api.deleteFromBasket(Number(id));
-    setBasketSneakers((prev) =>
-      prev.filter((item) => Number(item.id) !== Number(id))
-    );
+    try {
+      api.deleteFromBasket(Number(id));
+      setBasketSneakers((prev) =>
+        prev.filter((item) => Number(item.id) !== Number(id))
+      );
+    } catch (error) {
+      alert("не удалось удалить предмет!");
+      console.error(error);
+    }
   };
 
   /** Покупаем предметы и удаляем предметы из корзины */
@@ -105,23 +119,22 @@ function App() {
 
   /* Получаем весь ассортимент */
   useEffect(() => {
+    setIsLoading(true);
     (async () => {
-      setIsLoading(true);
-
       try {
-        const sneakersResponse = await api.getItems();
-        const basketResponse = await api.getToBasket();
-        const favoriteResponse = await api.getFromFavorite();
-        const ordersResponse = await api.myOrders();
+        const basketPromise = api.getToBasket();
+        const favoritePromise = api.getFromFavorite();
+        const sneakersPromise = api.getItems();
+
+        const [basketResponse, favoriteResponse, sneakersResponse] =
+          await Promise.all([basketPromise, favoritePromise, sneakersPromise]);
 
         setBasketSneakers(basketResponse.data);
         setFavorites(favoriteResponse.data);
         setSneakers(sneakersResponse.data);
-        setOrders(ordersResponse.data);
       } catch (error) {
-        alert("Приложение упало");
+        alert("Приложение упало и не хочет подниматься");
       }
-
       setIsLoading(false);
     })();
     // api.getItems().then((res) => setSneakers(res.data));
@@ -130,8 +143,15 @@ function App() {
   /** Чтобы отдельно загружал содержмое корзины, ибо баг ебанный с этим id в мокапэ  */
   useEffect(() => {
     (async () => {
-      const basketResponse = await api.getToBasket();
-      setBasketSneakers(basketResponse.data);
+      try {
+        if (isBasketOpened) {
+          const basketResponse = await api.getToBasket();
+          setBasketSneakers(basketResponse.data);
+        }
+      } catch (error) {
+        alert("не загрузилось содержимое корзины");
+        console.error(error);
+      }
     })();
   }, [isBasketOpened]);
 
@@ -153,6 +173,7 @@ function App() {
         basketSneakers,
         favorites,
         hasAddedItems,
+        hasFavoritesItems,
         handleBasketOpened,
         handleAddToFavorite,
         isLoading,
@@ -161,15 +182,12 @@ function App() {
       <div className="page clear">
         <div className="page__container">
           <Header handleBasketOpened={handleBasketOpened} />
-          {isBasketOpened && (
-            <AsideCart
-              isOpen={isBasketOpened}
-              handleRemoveItemBasket={handleRemoveItemBasket}
-              handleBuy={handleBuy}
-            />
-          )}
+          <AsideCart
+            isOpen={isBasketOpened}
+            handleRemoveItemBasket={handleRemoveItemBasket}
+            handleBuy={handleBuy}
+          />
           <Routes>
-
             <Route
               path="/favorites"
               element={<Favorites addToBasket={handleAddToBasket} />}
@@ -185,7 +203,7 @@ function App() {
               }
             />
 
-            <Route path="/orders" element={<Orders orders={orders} />} />
+            <Route path="/orders" element={<Orders />} />
           </Routes>
         </div>
       </div>

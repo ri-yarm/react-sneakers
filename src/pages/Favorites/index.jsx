@@ -8,19 +8,22 @@ import styles from "./Favorites.module.scss";
 
 import { SneakersContext } from "../../contexts/SneakersContext";
 
-export const Favorites = ({addToBasket}) => {
-  const { favorites, handleAddToFavorite, isLoading } = useContext(SneakersContext);
-  const favoritesElement = (isLoading ? [...Array(12)] : favorites).map((item, index) => (
-    <Card
-      card={item}
-      isFavorited
-      loading={isLoading}
-      addToBasket={addToBasket}
-      // handleRemoveItemBasket={handleRemoveItemBasket}
-      handleAddToFavorite={handleAddToFavorite}
-      key={index}
-    />
-  ));
+export const Favorites = ({ addToBasket }) => {
+  const { favorites, handleAddToFavorite, isLoading } =
+    useContext(SneakersContext);
+  const favoritesElement = (isLoading ? [...Array(12)] : favorites).map(
+    (item, index) => (
+      <Card
+        card={item}
+        isFavorited
+        loading={isLoading}
+        addToBasket={addToBasket}
+        // handleRemoveItemBasket={handleRemoveItemBasket}
+        handleAddToFavorite={handleAddToFavorite}
+        key={index}
+      />
+    )
+  );
 
   return (
     <main className={styles.contentFavorite}>

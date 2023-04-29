@@ -1,4 +1,5 @@
 .overlay {
+  visibility: hidden;
   height: 100vh;
   position: fixed;
   top: 0;
@@ -7,6 +8,13 @@
   bottom: 0;
   z-index: 2;
   background: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  transition: opacity .7s linear, visibility .7s ease;
+
+  &_visible {
+    visibility: visible;
+    opacity: 1;
+  }
 }
 
 .basket {
@@ -17,10 +25,15 @@
   width: 385px;
   height: 100%;
   top: 0;
-  right: 0;
+  right: -600px;
   padding: 30px 0px;
   background: #ffffff;
   box-shadow: -10px 4px 24px rgba(0, 0, 0, 0.1);
+  transition: right 0.7s cubic-bezier(0.39, 0.58, 0.57, 1);
+
+  &_visible {
+    right: 0;
+  }
 
   p {
     margin: 0;
@@ -61,7 +74,7 @@
     &::-webkit-scrollbar-track {
       background-color: #f1f1f1;
     }
-    
+
     &::-webkit-scrollbar-thumb {
       background-color: #888;
       border-radius: 5px;
@@ -149,7 +162,7 @@
     background: #9dd558;
     border-radius: 18px;
     opacity: 0.7;
-    transition: all 0.5s ease-in-out;
+    transition: opacity 0.3s linear;
     position: relative;
 
     font-style: normal;
@@ -178,7 +191,7 @@
       right: 32px;
       top: 16px;
       font-size: 24px;
-      transition: all 0.5s ease-in-out;
+      transition: transform 0.5s ease-in-out;
     }
   }
 
@@ -190,5 +203,3 @@
     margin: 0 8px;
   }
 }
-
-
