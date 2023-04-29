@@ -15,7 +15,7 @@ export const Favorites = ({ addToBasket }) => {
     (item, index) => (
       <Card
         card={item}
-        isFavorited
+        isFavorited = {true}
         loading={isLoading}
         addToBasket={addToBasket}
         // handleRemoveItemBasket={handleRemoveItemBasket}

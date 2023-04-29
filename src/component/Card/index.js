@@ -14,8 +14,6 @@ const Card = ({
   loading,
 }) => {
   const { hasAddedItems, hasFavoritesItems } = useContext(SneakersContext);
-  
-
   const [toFavorite, setToFavorite] = useState(isFavorited);
 
   /** Добавляем в корзину и меняем картинку */
@@ -26,7 +24,6 @@ const Card = ({
   /** Добавляем в избранное */
   const onClickFavorite = () => {
     setToFavorite(!toFavorite);
-    console.log(card);
     handleAddToFavorite({...card, itemId: card.id});
   };
 
