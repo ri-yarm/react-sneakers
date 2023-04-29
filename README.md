@@ -1,7 +1,7 @@
 # Проект: Место *React*
 
 <p align="center">
-  <img width="600" height="400" src="./src/MD/previewMD.gif">
+  <img width="600" height="400" src="./src/MD/PreviewMD.gif">
 </p>
 
 **Веб-приложения React Sneakers**: Интернет магазин с кроссовками. Где можно добавлять кроссовки в корзину, избранное, и смотреть то что купили.
