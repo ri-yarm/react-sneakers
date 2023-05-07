@@ -56,10 +56,11 @@ export const AsideCart = ({ isOpen, handleRemoveItemBasket, handleBuy }) => {
   ));
 
   useEffect(() => {
-    document.body.style.overflow = "auto";
-    return () => {
+    if(isOpen) {
       document.body.style.overflow = "hidden";
-    };
+    } else {
+      document.body.style.overflow = "auto";
+    }
   }, [isOpen]);
 
   return (

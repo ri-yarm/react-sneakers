@@ -20,6 +20,11 @@
     justify-content: space-between;
     align-items: center;
   }
+
+  &__slider {
+    display: block;
+    margin: 0 auto 40px;
+  }
 }
 
 .search {

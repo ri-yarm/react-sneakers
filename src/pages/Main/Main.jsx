@@ -1,15 +1,16 @@
-import { useContext, useState } from "react";
+import { useContext, useState } from 'react';
 
-import Card from "../../component/Card";
+import Card from '../../component/Card';
 
-import { SneakersContext } from "../../contexts/SneakersContext";
+import { SneakersContext } from '../../contexts/SneakersContext';
+import { Slider } from '../../component/Slider';
 
-import styles from "./Main.module.scss";
+import styles from './Main.module.scss';
 
 export const Main = ({ addToBasket }) => {
-  const [searchInputValue, setSearchInputValue] = useState("");
+  const [searchInputValue, setSearchInputValue] = useState('');
 
-  const { sneakers, handleAddToFavorite, isLoading, hasAddedItems } =
+  const { sneakers, handleAddToFavorite, isLoading, /* hasAddedItems */ } =
     useContext(SneakersContext);
 
   /** Обработчик инпута поиска*/
@@ -45,16 +46,44 @@ export const Main = ({ addToBasket }) => {
 
   return (
     <main className={styles.content}>
+      <div className={styles.content__slider}>
+        <Slider>
+          <img
+            src={
+              process.env.PUBLIC_URL +
+              '/img/slider__children/slider__item-1.jpg'
+            }
+            alt=""
+          />
+          <img
+            src={
+              process.env.PUBLIC_URL +
+              '/img/slider__children/slider__item-2.jpeg'
+            }
+            alt=""
+          />
+          <div>
+            <h1 style={{textAlign: 'center'}}>Не нашёл подходящих картинок</h1>
+          </div>
+          <img
+            src={
+              process.env.PUBLIC_URL +
+              '/img/slider__children/slider__item-3.png'
+            }
+            alt=""
+          />
+        </Slider>
+      </div>
       <div className={styles.content__head}>
         <h2 className={styles.content__title}>
           {searchInputValue
             ? `Поиск по запросу: "${searchInputValue}" `
-            : "Все кроссовки"}
+            : 'Все кроссовки'}
         </h2>
         <div className={styles.search}>
           <img
             className={styles.search__img}
-            src={process.env.PUBLIC_URL + "/img/content__search.svg"}
+            src={process.env.PUBLIC_URL + '/img/content__search.svg'}
             alt=" Иконка поиска."
           />
           <input
@@ -62,15 +91,15 @@ export const Main = ({ addToBasket }) => {
             type="text"
             placeholder="Поиск кроссовок..."
             onChange={onChangeInputValue}
-            value={searchInputValue || ""}
+            value={searchInputValue || ''}
           />
           {searchInputValue && (
             <button
               className={`button ${styles.search__button}`}
-              onClick={() => setSearchInputValue("")}
+              onClick={() => setSearchInputValue('')}
             >
               <img
-                src={process.env.PUBLIC_URL + "/img/basket__delete-item.svg"}
+                src={process.env.PUBLIC_URL + '/img/basket__delete-item.svg'}
                 alt="Очистить инпут"
               />
             </button>

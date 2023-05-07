@@ -1,21 +1,20 @@
-import React, { useState, useEffect } from "react";
-import { Routes, Route, useFetcher } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { Routes, Route} from 'react-router-dom';
 
-import { Header } from "./Header/Header";
-import { Main } from "../pages/Main/Main";
-import { AsideCart } from "./AsideCart";
+import { Header } from './Header/Header';
+import { Main } from '../pages/Main/Main';
+import { AsideCart } from './AsideCart';
 
-import { Favorites } from "../pages/Favorites";
-import { Orders } from "../pages/Orders";
+import { Favorites } from '../pages/Favorites';
+import { Orders } from '../pages/Orders';
 
-import * as api from "../utils/api";
+import * as api from '../utils/api';
 
-import { SneakersContext } from "../contexts/SneakersContext";
+import { SneakersContext } from '../contexts/SneakersContext';
 
 /* 
   ! Есть маленькая неудобность с избранными
   ! не блокируется кнопка при покупке
-  TODO Сделать слайдер!
 
 */
 
@@ -47,11 +46,11 @@ function App() {
         // handleRemoveItemBasket(Number(obj.itemId));
       } else {
         // если всё норм добавляем в корзину
-        const {data} = await api.addToBasket(obj);
+        const { data } = await api.addToBasket(obj);
         setBasketSneakers((prev) => [...prev, data]);
       }
     } catch (error) {
-      alert("ошибка с корзиной");
+      alert('ошибка с корзиной');
       console.log(error);
     }
   };
@@ -70,7 +69,9 @@ function App() {
   /** Добавляем предмет в избранное */
   const handleAddToFavorite = async (obj) => {
     try {
-      const findItem = favorites.find((favObj) => Number(favObj.id) === Number(obj.id))
+      const findItem = favorites.find(
+        (favObj) => Number(favObj.id) === Number(obj.id)
+      );
       //если id объекта совпадает с id объекта который уже в избранном, то удаляем его
       if (findItem) {
         api.deleteFromFavorite(Number(obj.id));
@@ -80,7 +81,7 @@ function App() {
         setFavorites((prev) => [...prev, data]);
       }
     } catch (error) {
-      alert("ошибка с фаворитами");
+      alert('ошибка с фаворитами');
       console.error(error);
     }
   };
@@ -93,7 +94,7 @@ function App() {
         prev.filter((item) => Number(item.id) !== Number(id))
       );
     } catch (error) {
-      alert("не удалось удалить предмет!");
+      alert('не удалось удалить предмет!');
       console.error(error);
     }
   };
@@ -133,7 +134,7 @@ function App() {
         setFavorites(favoriteResponse.data);
         setSneakers(sneakersResponse.data);
       } catch (error) {
-        alert("Приложение упало и не хочет подниматься");
+        alert('Приложение упало и не хочет подниматься');
       }
       setIsLoading(false);
     })();
@@ -149,7 +150,7 @@ function App() {
           setBasketSneakers(basketResponse.data);
         }
       } catch (error) {
-        alert("не загрузилось содержимое корзины");
+        alert('не загрузилось содержимое корзины');
         console.error(error);
       }
     })();
